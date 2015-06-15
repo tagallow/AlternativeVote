@@ -33,11 +33,24 @@ namespace AlternativeVote
         }
         static void RunElection()
         {
+            //count votes
             foreach(Citizen citizen in citizens)
             {
                 int vote = GetNextVote(citizen);
                 candidates.Where(candidate => candidate.ID == vote).FirstOrDefault().VoteCount++;
             }
+            Candidate loser = new Candidate { ID = -1, VoteCount = int.MaxValue };
+            foreach(Candidate candidate in candidates)
+            {
+                if (candidate.VoteCount < loser.VoteCount)
+                {
+                    loser.VoteCount = candidate.VoteCount;
+                    loser.ID = candidate.ID;
+                    loser.Name = candidate.Name;
+                }
+            }
+            Console.WriteLine("{0} has been eliminated", loser.Name);
+            candidates.Where(candidate => candidate.ID == loser.ID).FirstOrDefault().IsActive=false;
         }
         static bool IsElectionDone()
         {
