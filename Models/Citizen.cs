@@ -8,6 +8,10 @@ namespace AlternativeVote.Models
 {
     public class Citizen
     {
+        public Citizen(int[] ballot)
+        {
+            votes = new List<int>(ballot);
+        }
         public List<int> votes { get; set; }
     }
 }

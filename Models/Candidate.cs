@@ -8,10 +8,13 @@ namespace AlternativeVote.Models
 {
     public class Candidate
     {
-        public Candidate()
+        public Candidate(){ }
+        public Candidate(int id, string name)
         {
             VoteCount = 0;
             IsActive = true;
+            ID = id;
+            Name = name;
         }
         public int ID { get; set; }
         public int VoteCount { get; set; }
