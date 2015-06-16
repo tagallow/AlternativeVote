@@ -166,7 +166,8 @@ namespace AlternativeVote
             foreach (Citizen citizen in citizens)
             {
                 int vote = GetNextVote(citizen);
-                candidates.Where(candidate => candidate.ID == vote).FirstOrDefault().VoteCount++;
+                if(vote>0)
+                    candidates.Where(candidate => candidate.ID == vote).FirstOrDefault().VoteCount++;
             }
         }
         static void EliminateLowestCandidate()
