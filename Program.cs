@@ -20,7 +20,7 @@ namespace AlternativeVote
                 EliminateLowestCandidate();
             }
             
-            Console.WriteLine("Winner: {0}", candidates.Where(c => c.IsActive == true).FirstOrDefault().Name);
+            //Console.WriteLine("Winner: {0}", candidates.Where(c => c.IsActive == true).FirstOrDefault().Name);
             Console.ReadKey();
         }
         static void InitlializeCandidates()
@@ -171,7 +171,6 @@ namespace AlternativeVote
         }
         static void EliminateLowestCandidate()
         {
-            
             Candidate loser = new Candidate { ID = -1, VoteCount = int.MaxValue };
             foreach(Candidate candidate in candidates.Where(c=>c.IsActive))
             {
