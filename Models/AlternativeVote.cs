@@ -7,10 +7,9 @@ using System.Threading.Tasks;
 
 namespace ElectionTypes.Models
 {
-    public class AlternativeVote : IElectionType
+    public class AlternativeVote : GenericElection
     {
-        private List<Citizen> citizens;
-        private List<Candidate> candidates;
+        
         public AlternativeVote()
         {
             citizens = null;
@@ -33,7 +32,7 @@ namespace ElectionTypes.Models
             }
         }
 
-        public void RunElection(List<Candidate> candidates, List<Citizen> citizens)
+        override public void RunElection(List<Candidate> candidates, List<Citizen> citizens)
         {
             this.candidates = candidates;
             this.citizens = citizens;
@@ -115,31 +114,6 @@ namespace ElectionTypes.Models
                 isDone = true;
             }
             return isDone;
-        }
-        #endregion
-
-        #region Boring helper methods 
-        private void VoteForCandidate(int id)
-        {
-            Candidate c = GetCandidateByID(id);
-            //casts vote only if the vote is valid.
-            if(c!=null)
-            {
-                c.VoteCount++;
-            }
-            else if (id != 0) //0 is reserved to indicate no vote
-            {
-                Console.WriteLine("An invalid vote was found and ignored");
-                //throw new Exception("invalid vote");
-            }
-        }
-        private Candidate GetCandidateByID(int id)
-        {
-            return candidates.Where(candidate => candidate.ID == id).FirstOrDefault();
-        }
-        private bool CandidateIsActive(int id)
-        {
-            return GetCandidateByID(id).IsActive;
         }
         #endregion
     }
