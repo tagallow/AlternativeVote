@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AlternativeVote.Models
+namespace ElectionTypes.Models
 {
     public class Citizen
     {
