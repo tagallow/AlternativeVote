@@ -57,7 +57,9 @@ namespace ElectionTypes.Models
             Console.WriteLine("{0} has been eliminated", loser.Name);
             candidates.Where(candidate => candidate.ID == loser.ID).FirstOrDefault().IsActive = false;
         }
-
+        /// <summary>
+        /// Every time a candidate is eliminated the votes need to be recounted, ignoring votes for that candidate.
+        /// </summary>
         private void CountVotes()
         {
             foreach (Candidate candidate in candidates)
@@ -67,44 +69,77 @@ namespace ElectionTypes.Models
             foreach (Citizen citizen in citizens)
             {
                 int vote = GetNextVote(citizen);
-                if (vote > 0)
-                    candidates.Where(candidate => candidate.ID == vote).FirstOrDefault().VoteCount++;
+                VoteForCandidate(vote);
             }
         }
+        
+        /// <summary>
+        /// Cycles through each of a citizens vote, and casts their first valid vote.
+        /// </summary>
+        /// <returns>An integer representing the citizen's vote</returns>
         private int GetNextVote(Citizen c)
         {
+            int vote = 0;
             for (int i = 0; i < c.votes.Count; i++)
             {
                 if (CandidateIsActive(c.votes[i]))
-                    return c.votes[i];
+                {
+                    vote = c.votes[i];
+                    break;
+                }
             }
-            return -1;
+            return vote;
         }
-        private bool CandidateIsActive(int id)
-        {
-            return candidates.Where(candidate => candidate.ID == id).FirstOrDefault().IsActive;
-        }
+        
         /// <summary>
         /// Election is over when one candidate has more than 50% of all votes, or is the only candidate left
         /// </summary>
         private bool IsElectionDone()
         {
+            bool isDone = false;
             CountVotes();
             foreach (Candidate c in candidates)
             {
+                //Checks if this candidate has more than half the votes
                 if (c.VoteCount > (double)citizens.Count / 2)
                 {
                     Console.WriteLine("Election Complete: {0} has {1:0.0%} of votes", c.Name, ((double)c.VoteCount / citizens.Count));
-                    return true;
+                    isDone = true;
                 }
             }
 
+            //Checks if only one candidate is remaining.
             if (candidates.Where(c => c.IsActive == true).ToList().Count == 1)
             {
                 Console.WriteLine("Election Complete: {0} is the only remaining candidate.", candidates.Where(c => c.IsActive == true).FirstOrDefault());
-                return true;
+                isDone = true;
             }
-            return false;
+            return isDone;
+        }
+        #endregion
+
+        #region Boring helper methods 
+        private void VoteForCandidate(int id)
+        {
+            Candidate c = GetCandidateByID(id);
+            //casts vote only if the vote is valid.
+            if(c!=null)
+            {
+                c.VoteCount++;
+            }
+            else if (id != 0) //0 is reserved to indicate no vote
+            {
+                Console.WriteLine("An invalid vote was found and ignored");
+                //throw new Exception("invalid vote");
+            }
+        }
+        private Candidate GetCandidateByID(int id)
+        {
+            return candidates.Where(candidate => candidate.ID == id).FirstOrDefault();
+        }
+        private bool CandidateIsActive(int id)
+        {
+            return GetCandidateByID(id).IsActive;
         }
         #endregion
     }

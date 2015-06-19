@@ -8,7 +8,10 @@ namespace ElectionTypes.Models
 {
     public class Candidate
     {
-        public Candidate(){ }
+        public Candidate()
+        {
+
+        }
         public Candidate(int id, string name)
         {
             VoteCount = 0;
