@@ -14,8 +14,8 @@ namespace ElectionTypes
         {
             List<Citizen> citizens = GetSampleVotes();
             List<Candidate> candidates = GetCandidateSampleData();
-            AlternativeVoteBuckets alternateVote = new AlternativeVoteBuckets();
-            alternateVote.RunElection(candidates, citizens);
+            FirstPastThePost election = new FirstPastThePost();
+            election.RunElection(candidates, citizens);
             Console.ReadKey();
         }
         static List<Candidate> GetCandidateSampleData()

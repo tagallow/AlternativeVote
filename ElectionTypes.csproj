@@ -45,6 +45,7 @@
     <Compile Include="Models\AlternativeVoteBuckets.cs" />
     <Compile Include="Models\Candidate.cs" />
     <Compile Include="Models\Citizen.cs" />
+    <Compile Include="Models\FirstPastThePost.cs" />
     <Compile Include="Models\GenericElection.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
