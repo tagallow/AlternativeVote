@@ -14,7 +14,7 @@ namespace ElectionTypes
         {
             List<Citizen> citizens = GetSampleVotes();
             List<Candidate> candidates = GetCandidateSampleData();
-            AlternativeVote alternateVote = new AlternativeVote();
+            AlternativeVoteBuckets alternateVote = new AlternativeVoteBuckets();
             alternateVote.RunElection(candidates, citizens);
             Console.ReadKey();
         }

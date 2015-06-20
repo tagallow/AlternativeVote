@@ -17,26 +17,14 @@ namespace ElectionTypes.Models
         }
 
         #region Generic election methods
-        private void RunElection()
-        {
-            if (citizens != null && candidates != null)
-            {
-                while (!IsElectionDone())
-                {
-                    EliminateLowestCandidate();
-                }
-            }
-            else
-            {
-                throw new Exception("Election is not initialized");
-            }
-        }
-
         override public void RunElection(List<Candidate> candidates, List<Citizen> citizens)
         {
             this.candidates = candidates;
             this.citizens = citizens;
-            RunElection();
+            while (!IsElectionDone())
+            {
+                EliminateLowestCandidate();
+            }
         }
         #endregion
 
